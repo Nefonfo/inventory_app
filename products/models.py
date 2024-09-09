@@ -1,9 +1,11 @@
 from django.db import models
+from django.db.models import Sum
 
 from computedfields.models import ComputedFieldsModel, computed
 
-from products.managers import ProductManager
 from core.models import BaseModel
+from products.managers import ProductManager
+from stock.models import Warehouse
 
 
 class Brand(BaseModel):
@@ -42,6 +44,24 @@ class Product(BaseModel, ComputedFieldsModel):
         return self.variant_extra_price + self.product_base.standard_price
 
     objects = ProductManager()
+
+    def _get_qty(self, field_name):
+        related_quants = self.stock_quants.filter(
+            warehouse__type=Warehouse.WarehouseType.IN
+        )
+        return related_quants.aggregate(Sum(field_name)).get(f"{field_name}__sum", 0)
+
+    @property
+    def all_free_quantity(self):
+        return self._get_qty("free_quantity")
+
+    @property
+    def all_reserved_quantity(self):
+        return self._get_qty("reserved_quantity")
+
+    @property
+    def all_total_quantity(self):
+        return self._get_qty("total_quantity")
 
     def __str__(self):
         code = f"[{self.code}] " if self.code else ""

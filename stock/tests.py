@@ -12,9 +12,12 @@ class StockTest(TestCase):
         for stock_quant, expected_value in zip(stock_quants, expected_values):
             self._round_stock_quant(stock_quant, expected_value)
 
-    def _round_stock_quant(self, stock_quant, expected_values=(0, 0, 0)):
-        # expected_values: free, reservered, total
-        fields = ("free_quantity", "reserved_quantity", "total_quantity")
+    def _round_stock_quant(
+        self,
+        stock_quant,
+        expected_values=(0, 0, 0),
+        fields=("free_quantity", "reserved_quantity", "total_quantity"),
+    ):
         # needs to refresh data
         stock_quant.refresh_from_db()
         for field, expected in zip(fields, expected_values):
@@ -310,3 +313,41 @@ class StockTest(TestCase):
         test_picking_3.set_in_progress()
         test_picking_3.set_cancel()
         self._assert_validation_error(test_picking_3.set_cancel)
+
+    def test_product_integration_aggregation_fields(self):
+        fields = ("all_free_quantity", "all_reserved_quantity", "all_total_quantity")
+        product_1 = Product.objects.save_with_base(
+            variant_name="128 GB",
+            code="M1-01",
+            variant_extra_price=100.99,
+            product_base_name="MAC M1",
+            product_base_standard_price=800.00,
+            product_base_brand=self.common_brand,
+        )
+
+        StockQuant.objects.create(
+            product=product_1, warehouse=self.warehouse_in, free_quantity=24
+        )
+        StockQuant.objects.create(
+            product=product_1, warehouse=self.warehouse_in_2, free_quantity=32
+        )
+
+        self._round_stock_quant(product_1, (56, 0, 56), fields=fields)
+
+        test_picking_1 = StockPicking.objects.create(
+            warehouse_from=self.warehouse_in_2,
+            warehouse_to=self.warehouse_out,
+        )
+
+        StockMove.objects.create(
+            stock_picking=test_picking_1,
+            product=product_1,
+            quantity=12,
+        )
+        test_picking_1.set_in_progress()
+
+        self._round_stock_quant(product_1, (44, 12, 56), fields=fields)
+
+        test_picking_1.set_done()
+
+        self._round_stock_quant(product_1, (44, 0, 44), fields=fields)
