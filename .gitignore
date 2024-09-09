@@ -2,7 +2,8 @@
 
 # Custom
 venv/
-
+.vscode/
+.venv/
 ### OSX ###
 .DS_Store
 .AppleDouble
