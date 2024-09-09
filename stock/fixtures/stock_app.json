@@ -1,0 +1,133 @@
+[
+{
+    "model": "stock.warehouse",
+    "pk": 1,
+    "fields": {
+        "created_at": "2024-09-09T01:11:04.125Z",
+        "updated_at": "2024-09-09T01:11:04.125Z",
+        "name": "Client Address",
+        "code": "CL1",
+        "type": "OUT"
+    }
+},
+{
+    "model": "stock.warehouse",
+    "pk": 2,
+    "fields": {
+        "created_at": "2024-09-09T01:11:09.980Z",
+        "updated_at": "2024-09-09T01:11:09.980Z",
+        "name": "Client Address",
+        "code": "CL1",
+        "type": "OUT"
+    }
+},
+{
+    "model": "stock.warehouse",
+    "pk": 3,
+    "fields": {
+        "created_at": "2024-09-09T01:11:15.243Z",
+        "updated_at": "2024-09-09T01:11:15.243Z",
+        "name": "Coyoacan Warehouse",
+        "code": "CY1",
+        "type": "IN"
+    }
+},
+{
+    "model": "stock.warehouse",
+    "pk": 4,
+    "fields": {
+        "created_at": "2024-09-09T01:11:20.972Z",
+        "updated_at": "2024-09-09T01:11:20.973Z",
+        "name": "Monterrey Warehouse",
+        "code": "MYT1",
+        "type": "IN"
+    }
+},
+{
+    "model": "stock.stockquant",
+    "pk": 1,
+    "fields": {
+        "created_at": "2024-09-09T01:12:24.799Z",
+        "updated_at": "2024-09-09T01:12:24.799Z",
+        "product": 1,
+        "warehouse": 3,
+        "free_quantity": 24,
+        "reserved_quantity": 0,
+        "total_quantity": 24
+    }
+},
+{
+    "model": "stock.stockquant",
+    "pk": 2,
+    "fields": {
+        "created_at": "2024-09-09T01:12:37.386Z",
+        "updated_at": "2024-09-09T01:12:37.386Z",
+        "product": 2,
+        "warehouse": 4,
+        "free_quantity": 10,
+        "reserved_quantity": 0,
+        "total_quantity": 10
+    }
+},
+{
+    "model": "stock.stockquant",
+    "pk": 3,
+    "fields": {
+        "created_at": "2024-09-09T01:12:50.211Z",
+        "updated_at": "2024-09-09T01:13:37.390Z",
+        "product": 1,
+        "warehouse": 4,
+        "free_quantity": 12,
+        "reserved_quantity": 10,
+        "total_quantity": 22
+    }
+},
+{
+    "model": "stock.stockpicking",
+    "pk": 1,
+    "fields": {
+        "created_at": "2024-09-09T01:13:10.270Z",
+        "updated_at": "2024-09-09T01:13:37.391Z",
+        "name": "[IN] MYT1/CY1/090924",
+        "state": "PG",
+        "warehouse_from": 4,
+        "warehouse_to": 3,
+        "code_type": "INTERNAL"
+    }
+},
+{
+    "model": "stock.stockpicking",
+    "pk": 2,
+    "fields": {
+        "created_at": "2024-09-09T01:14:43.208Z",
+        "updated_at": "2024-09-09T01:15:28.467Z",
+        "name": "[IN] CY1/CL1/090924",
+        "state": "C",
+        "warehouse_from": 3,
+        "warehouse_to": 2,
+        "code_type": "OUT"
+    }
+},
+{
+    "model": "stock.stockmove",
+    "pk": 1,
+    "fields": {
+        "created_at": "2024-09-09T01:13:22.898Z",
+        "updated_at": "2024-09-09T01:13:22.898Z",
+        "product": 1,
+        "quantity": 10,
+        "stock_picking": 1
+    }
+},
+{
+    "model": "stock.stockmove",
+    "pk": 2,
+    "fields": {
+        "created_at": "2024-09-09T01:14:56.573Z",
+        "updated_at": "2024-09-09T01:14:56.573Z",
+        "product": 2,
+        "quantity": 2,
+        "stock_picking": 2
+    }
+}
+]
