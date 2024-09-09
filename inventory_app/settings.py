@@ -35,7 +35,6 @@ INSTALLED_APPS = [
     "products",
     "stock",
     "computedfields",
-    "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
