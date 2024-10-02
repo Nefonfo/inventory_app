@@ -16,10 +16,23 @@ Including another URLconf
 """
 
 from django.urls import include, path
+from django.conf import settings
+from django.conf.urls.static import static
 
+from core.urls import core_urls
 from inventory_app.routes import api_routes
 
 urlpatterns = [
+    *core_urls,
     path("api-auth/", include("rest_framework.urls")),
     *api_routes,
 ]
+
+if settings.DEBUG:
+    from django.contrib import admin
+
+    urlpatterns += [
+        path("admin/", admin.site.urls),
+        *static(settings.STATIC_URL, document_root=settings.STATIC_ROOT),
+        *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
+    ]
