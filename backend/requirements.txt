@@ -13,6 +13,8 @@ nodeenv==1.9.1
 pillow==11.0.0
 platformdirs==4.3.2
 pre-commit==3.8.0
+psycopg2-binary==2.9.10
+python-dotenv==1.0.1
 PyYAML==6.0.2
 sqlparse==0.5.1
 typing_extensions==4.12.2
