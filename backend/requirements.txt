@@ -1,13 +1,16 @@
 asgiref==3.8.1
 cfgv==3.4.0
 distlib==0.3.8
-Django==5.0.0
+Django==5.0
+django-cleanup==9.0.0
 django-computedfields==0.2.6
+django-cors-headers==4.6.0
 django-fast-update==0.2.3
 djangorestframework==3.15.2
 filelock==3.16.0
 identify==2.6.0
 nodeenv==1.9.1
+pillow==11.0.0
 platformdirs==4.3.2
 pre-commit==3.8.0
 PyYAML==6.0.2
