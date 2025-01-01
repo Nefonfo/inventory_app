@@ -89,7 +89,7 @@ export const Header = ({ display_name, user_photo, logoutAction }: HeaderProps) 
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">
               <Avatar>
-                {user_photo && <AvatarImage src={`http://localhost:8000/${user_photo}`} />}
+                {user_photo && <AvatarImage src={`${import.meta.env.VITE_BACKEND_URL}${user_photo}`} />}
                 <AvatarFallback>{getInitials(display_name)}</AvatarFallback>
               </Avatar>
               <span className="sr-only">Toggle user menu</span>

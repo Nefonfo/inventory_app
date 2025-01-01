@@ -12,7 +12,7 @@ export const UpdateProfile = ({ user, onUpdateImage }: UpdateProfileProps) => {
         <div className="w-full flex flex-col gap-y-10 items-center justify-center">
             <div className="max-w-[800px] w-full flex flex-col md:flex-row gap-x-8 gap-y-4 items-center">
                 <Avatar className="w-20 h-20 md:w-32 md:h-32">
-                    {user.user_photo && <AvatarImage src={`http://localhost:8000/${user.user_photo}`} />}
+                    {user.user_photo && <AvatarImage src={`${import.meta.env.VITE_BACKEND_URL}${user.user_photo}`} />}
                     <AvatarFallback className="text-xl md:text-3xl">{getInitials(display_name)}</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col gap-y-3 justify-center items-center md:items-start">

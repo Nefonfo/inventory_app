@@ -8,7 +8,7 @@ export const authLogin = createAsyncThunk<LoginResponse | BackendSingleResponse<
     'auth/login',
     async ({ username, password }: LoginDTO, { rejectWithValue }) => {
         try {
-            const response = await axios.post('http://localhost:8000/auth/', { username, password })
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/`, { username, password })
             return response.data
         } catch (error) {
             return rejectWithValue(

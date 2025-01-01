@@ -5,7 +5,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const profileApi = createApi({
     reducerPath: 'profileApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:8000/',
+        baseUrl: import.meta.env.VITE_BACKEND_URL,
         prepareHeaders: (headers, { getState }) => {
             const { auth } = getState() as RootState
             headers.set("Authorization", `token ${auth.token}`)
