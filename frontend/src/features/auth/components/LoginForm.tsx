@@ -1,17 +1,13 @@
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from 'react-hook-form'
-import { ExclamationTriangleIcon, ReloadIcon } from "@radix-ui/react-icons"
+import { ReloadIcon } from "@radix-ui/react-icons"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import {
-    Alert,
-    AlertDescription,
-    AlertTitle,
-} from "@/components/ui/alert"
 
+import { ErrorsHandler } from "@/components/custom_ui/ErrorsHandler"
 
 import { LoginFormProps, LoginFormSchema } from "@/features/auth/types"
 
@@ -33,17 +29,7 @@ export const LoginForm = ({ onSuccess, errors, loading }: LoginFormProps) => {
                         Enter your username below to login to your account
                     </p>
                 </div>
-                {errors && (
-                    Object.keys(errors).map((key, index) => (
-                        <Alert key={index} variant="destructive">
-                            <ExclamationTriangleIcon className="h-4 w-4" />
-                            <AlertTitle>Error {key}</AlertTitle>
-                            <AlertDescription>
-                                {errors[key]}
-                            </AlertDescription>
-                        </Alert>
-                    ))
-                )}
+                <ErrorsHandler errors={errors} />
                 <div className="grid gap-4">
                     <div className="grid gap-2">
                         <FormField
