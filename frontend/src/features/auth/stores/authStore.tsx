@@ -19,7 +19,10 @@ export const authSlice = createSlice({
         logout(state) {
             state.token = null
             state.user = null
-        }
+        },
+        updateUser(state, { payload }: { payload: UserDTO }) {
+            state.user = payload
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(authLogin.pending, (state) => {
@@ -33,12 +36,11 @@ export const authSlice = createSlice({
                 state.errors = null
             }),
             builder.addCase(authLogin.rejected, (state, { payload }) => {
-                console.log('REJECTED')
                 state.loading = false
                 state.errors = payload as BackendSingleResponse<string>
             })
     },
 
 })
-export const { logout } = authSlice.actions
+export const { logout, updateUser } = authSlice.actions
 export default authSlice.reducer

@@ -15,8 +15,24 @@ export const profileApi = createApi({
     endpoints: (builder) => ({
         profile: builder.query<UserDTO, string>({
             query: () => '/user/profile/',
-        })
+        }),
+        profileUpdate: builder.mutation<UserDTO, Partial<UserDTO>>({
+            query: (data) => {
+                const formData = new FormData();
+                Object.keys(data).forEach((key) => {
+                    if (data[key as keyof UserDTO] !== undefined) {
+                        formData.append(key, data[key as keyof UserDTO] as string);
+                    }
+                })
+                console.log(data)
+                return {
+                    url: '/user/profile/',
+                    method: 'PUT',
+                    body: formData,
+                }
+            },
+        }),
     })
 })
 
-export const { useProfileQuery } = profileApi
+export const { useProfileQuery, useProfileUpdateMutation } = profileApi

@@ -7,7 +7,7 @@ export interface UserDTO {
     email: string
     first_name: string
     last_name: string
-    user_photo: string
+    user_photo: string | File
 }
 
 export interface BackendPaginatedResponse<T> {

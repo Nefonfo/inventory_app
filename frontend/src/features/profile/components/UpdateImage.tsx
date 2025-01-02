@@ -3,7 +3,6 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { UpdateImageProps, UpdateImageSchema } from "@/features/profile/types"
@@ -21,6 +20,9 @@ export const UpdateImage = ({ onSuccess }: UpdateImageProps) => {
     })
 
     const submitAndClose = (data: z.infer<typeof UpdateImageSchema>) => {
+        if(data.user_photo === null || data.user_photo === undefined) {
+            data.user_photo = ''
+        }
         onSuccess(data)
         setOpen(false)
     }
@@ -34,33 +36,33 @@ export const UpdateImage = ({ onSuccess }: UpdateImageProps) => {
                 <DialogHeader>
                     <DialogTitle>Edit Profile Photo</DialogTitle>
                     <DialogDescription>
-                        Change your photo whenever you want!
+                        If you want to remove your profile photo, please leave the field empty.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(submitAndClose)} className="w-2/3 space-y-6">
-                            <FormField
-                                control={form.control}
-                                name="photo"
-                                render={({ field: { value, onChange, ...fieldProps } }) => (
-                                    <FormItem>
-                                        <FormLabel>Picture</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                {...fieldProps}
-                                                placeholder="Picture"
-                                                type="file"
-                                                accept="image/*"
-                                                onChange={(event) =>
-                                                    onChange(event.target.files && event.target.files[0])
-                                                }
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                        <FormField
+                                    control={form.control}
+                                    name="user_photo"
+                                    render={({ field: { value, onChange, ...fieldProps } }) => (
+                                        <FormItem>
+                                            <FormLabel>Picture</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    {...fieldProps}
+                                                    placeholder="Picture"
+                                                    type="file"
+                                                    accept="image/*"
+                                                    onChange={(event) =>
+                                                        onChange(event.target.files && event.target.files[0])
+                                                    }
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
                             <Button type="submit">Submit</Button>
                         </form>
                     </Form>
