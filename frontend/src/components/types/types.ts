@@ -6,6 +6,7 @@ export interface HeaderProps {
     logoutAction: () => void
 }
 
-export interface ErrorsHandlerProps {
-    errors: BackendSingleResponse<string> | string | null;
+export interface AlertsHandlerProps {
+    data: BackendSingleResponse<string> | string | null
+    alert_type?: 'default' | 'destructive'
 }

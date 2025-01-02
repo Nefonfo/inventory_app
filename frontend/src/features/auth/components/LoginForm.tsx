@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 
-import { ErrorsHandler } from "@/components/custom_ui/ErrorsHandler"
+import { AlertsHandler } from "@/components/custom_ui/AlertsHandler"
 
 import { LoginFormProps, LoginFormSchema } from "@/features/auth/types"
 
@@ -29,7 +29,7 @@ export const LoginForm = ({ onSuccess, errors, loading }: LoginFormProps) => {
                         Enter your username below to login to your account
                     </p>
                 </div>
-                <ErrorsHandler errors={errors} />
+                <AlertsHandler data={errors} alert_type="destructive" />
                 <div className="grid gap-4">
                     <div className="grid gap-2">
                         <FormField
