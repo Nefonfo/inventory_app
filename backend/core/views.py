@@ -31,3 +31,10 @@ class ProfileView(APIView):
         user = get_object_or_404(User, pk=request.user.id)
         user_serialized = UserSerializer(user)
         return Response(user_serialized.data)
+
+    def put(self, request, format=None):
+        user_serialized = UserSerializer(request.user, data=request.data, partial=True)
+        if user_serialized.is_valid():
+            user_serialized.save()
+            return Response(user_serialized.data)
+        return Response(user_serialized.errors, status=400)
