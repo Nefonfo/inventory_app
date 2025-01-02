@@ -12,7 +12,7 @@ import { LoginDTO, LoginFormSchema } from "@/features/auth/types"
 export const LoginRoute = () => {
 
     const navigate = useNavigate()
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useDispatch<AppDispatch>()
     const { loading, errors, token, user } = useSelector((state: RootState) => state.auth)
 
     const submitForm = (data: z.TypeOf<typeof LoginFormSchema>) => {
