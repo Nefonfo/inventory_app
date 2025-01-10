@@ -1,12 +1,9 @@
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
-
-from django.shortcuts import get_object_or_404
-from django.contrib.auth import get_user_model
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authentication import TokenAuthentication
 
 
 from core.serializers import UserSerializer
@@ -22,19 +19,38 @@ class ObtainAuthTokenCustom(ObtainAuthToken):
         return Response({"token": token.key, "user": user_serializer.data})
 
 
-class ProfileView(APIView):
+class ProfileView(RetrieveUpdateAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+    serializer_class = UserSerializer
 
-    def get(self, request, format=None):
-        User = get_user_model()
-        user = get_object_or_404(User, pk=request.user.id)
-        user_serialized = UserSerializer(user)
-        return Response(user_serialized.data)
+    def _get_allowed_fields(self):
+        return {"username", "email", "first_name", "last_name", "user_photo"}
 
-    def put(self, request, format=None):
-        user_serialized = UserSerializer(request.user, data=request.data, partial=True)
-        if user_serialized.is_valid():
-            user_serialized.save()
-            return Response(user_serialized.data)
-        return Response(user_serialized.errors, status=400)
+    def get_object(self):
+        return self.request.user
+
+    def put(self, request, *args, **kwargs):
+        invalid_fields = list(
+            filter(
+                lambda field: field not in self._get_allowed_fields(),
+                request.data.keys(),
+            )
+        )
+        if len(invalid_fields):
+            return Response(
+                {
+                    "details": [
+                        f"You are not allowed to update the following fields: {', '.join(invalid_fields)}"
+                    ]
+                },
+                status=403,
+            )
+
+        serializer = self.get_serializer(
+            self.get_object(), data=request.data, partial=True
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
