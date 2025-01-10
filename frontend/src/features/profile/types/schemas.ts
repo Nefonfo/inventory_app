@@ -21,10 +21,11 @@ export const UpdateImageSchema = z.object({
     ),
 })
 
+const alphabeticalRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/;
 export const UpdateInformationSchema = z.object({
   username: z.string().min(2),
-  first_name: z.string().min(2),
-  last_name: z.string().min(2),
+  first_name: z.string().min(2).regex(alphabeticalRegex, "First name must contain only letters, spaces, or special characters."),
+  last_name: z.string().min(2).regex(alphabeticalRegex, "Last name must contain only letters, spaces, or special characters."),
   email: z.string().email("Invalid email address"),
 })
 
