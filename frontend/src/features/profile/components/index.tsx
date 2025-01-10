@@ -1,2 +1,2 @@
-export * from './UpdateProfile'
-export * from './UpdateImage'
+export * from "./UpdateImage"
+export * from "./UpdateInformation"

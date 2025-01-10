@@ -1,3 +1,3 @@
 export const LandingRoute = () => {
-    return <h1>Landing</h1>
+  return <h1>Landing</h1>
 }

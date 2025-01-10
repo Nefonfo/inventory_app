@@ -1,10 +1,10 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import { persistStore, persistReducer } from "redux-persist"
 import storage from "redux-persist/lib/storage"
+import { persistStore, persistReducer } from "redux-persist"
+import { combineReducers, configureStore } from "@reduxjs/toolkit"
 
-import { profileApi } from '@/features/profile/api/profileApi'
-import AuthReducer from '@/features/auth/stores/authStore'
-import { profileFormStore } from '@/features/profile/store/profileFormStore'
+import { profileApi } from "@/features/profile/api"
+import { reducer as AuthReducer } from "@/features/auth/stores"
+import { profileFormStore } from "@/features/profile/store"
 
 const persistAuthConfig = {
   key: "auth",
@@ -14,7 +14,7 @@ const persistAuthConfig = {
 const rootReducer = combineReducers({
   auth: persistReducer(persistAuthConfig, AuthReducer),
   [profileApi.reducerPath]: profileApi.reducer,
-  profileForm: profileFormStore.reducer
+  profileForm: profileFormStore.reducer,
 })
 
 export const store = configureStore({
@@ -24,7 +24,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
       },
-    }).concat(profileApi.middleware)
+    }).concat(profileApi.middleware),
 })
 
 export type RootState = ReturnType<typeof store.getState>

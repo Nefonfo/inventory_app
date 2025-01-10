@@ -1,12 +1,12 @@
-import { BackendSingleResponse } from "@/types/types";
+import { BackendSingleResponse } from "@/types"
 
 export interface HeaderProps {
-    display_name: string
-    user_photo: string | null
-    logoutAction: () => void
+  display_name: string
+  user_photo: string | null
+  logoutAction: () => void
 }
 
 export interface AlertsHandlerProps {
-    data: BackendSingleResponse<string> | string | null
-    alert_type?: 'default' | 'destructive'
+  data: BackendSingleResponse<string> | string | null
+  alert_type?: "default" | "destructive"
 }
