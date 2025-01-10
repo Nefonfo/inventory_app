@@ -1,60 +1,21 @@
-import { z } from "zod"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 
-import { Spinner } from "@/components/ui/spinner"
-import { AlertsHandler } from "@/components/custom_ui"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import { Spinner } from "@/components/ui/spinner"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { updateUser } from "@/features/auth/stores"
-import { UpdateImage, UpdateInformation } from "@/features/profile/components"
+import { AlertsHandler } from "@/components/custom_ui"
+import { useProfileQuery } from "@/features/profile/api"
 import {
-  useProfileQuery,
-  useProfileUpdateMutation,
-} from "@/features/profile/api"
-import {
-  resetProfileForm,
-  setProfileFormErrors,
-  setProfileFormInfo,
-  setProfileFormLoading,
-} from "@/features/profile/store"
-import {
-  UpdateImageSchema,
-  UpdateInformationSchema,
-} from "@/features/profile/types"
+  UpdateImage,
+  UpdateInformation,
+  UpdatePassword,
+} from "@/features/profile/components"
 import { getInitials } from "@/lib/utils"
-import { RootState, AppDispatch } from "@/stores"
-import { UserDTO } from "@/types"
+import { RootState } from "@/stores"
 
 export const ProfileRoute = () => {
   const { errors, info } = useSelector((state: RootState) => state.profileForm)
-  const { isLoading, data: user, refetch } = useProfileQuery("")
-  const [updateProfile] = useProfileUpdateMutation()
-  const dispatch = useDispatch<AppDispatch>()
-
-  const submitForm = async (
-    data:
-      | z.infer<typeof UpdateImageSchema>
-      | z.infer<typeof UpdateInformationSchema>
-  ) => {
-    dispatch(resetProfileForm())
-    dispatch(setProfileFormLoading(true))
-    const submitData = data as Partial<UserDTO>
-    try {
-      const result = await updateProfile(submitData).unwrap()
-      dispatch(
-        setProfileFormInfo({ message: "Information updated successfully" })
-      )
-      dispatch(updateUser(result))
-      refetch()
-    } catch (error) {
-      if (error && typeof error === "object" && "data" in error) {
-        dispatch(setProfileFormErrors(error.data))
-      } else {
-        dispatch(setProfileFormErrors(error))
-      }
-    }
-    dispatch(setProfileFormLoading(false))
-  }
+  const { isLoading, data: user } = useProfileQuery("")
 
   const display_name =
     user && user.first_name && user.last_name
@@ -80,7 +41,7 @@ export const ProfileRoute = () => {
           <h1 className="text-center md:text-start text-3xl dark:text-slate-50">
             Welcome Back, <span className="font-bold">{display_name}</span>
           </h1>
-          <UpdateImage onSuccess={submitForm} />
+          <UpdateImage />
         </div>
       </div>
       <Tabs defaultValue="general" className="w-full lg:w-3/4">
@@ -89,10 +50,10 @@ export const ProfileRoute = () => {
           <TabsTrigger value="password">Password</TabsTrigger>
         </TabsList>
         <TabsContent value="general">
-          <UpdateInformation onSuccess={submitForm} />
+          <UpdateInformation />
         </TabsContent>
         <TabsContent value="password">
-          <h1>password</h1>
+          <UpdatePassword />
         </TabsContent>
       </Tabs>
     </div>

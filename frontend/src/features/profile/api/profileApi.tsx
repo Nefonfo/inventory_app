@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
 import { RootState } from "@/stores"
-import { UserDTO } from "@/types"
+import { BackendSingleResponse, PasswordDTO, UserDTO } from "@/types"
 
 export const profileApi = createApi({
   reducerPath: "profileApi",
@@ -25,7 +25,6 @@ export const profileApi = createApi({
             formData.append(key, data[key as keyof UserDTO] as string)
           }
         })
-        console.log(data)
         return {
           url: "/user/profile/",
           method: "PUT",
@@ -33,7 +32,23 @@ export const profileApi = createApi({
         }
       },
     }),
+    passwordUpdate: builder.mutation<
+      BackendSingleResponse<string>,
+      PasswordDTO
+    >({
+      query: (data) => {
+        return {
+          url: "/user/profile/change_password",
+          method: "PUT",
+          body: data,
+        }
+      },
+    }),
   }),
 })
 
-export const { useProfileQuery, useProfileUpdateMutation } = profileApi
+export const {
+  useProfileQuery,
+  useProfileUpdateMutation,
+  usePasswordUpdateMutation,
+} = profileApi

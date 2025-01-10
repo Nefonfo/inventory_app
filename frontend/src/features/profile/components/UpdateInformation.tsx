@@ -13,14 +13,17 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import {
-  UpdateInformationProps,
-  UpdateInformationSchema,
-} from "@/features/profile/types"
+import { UpdateInformationSchema } from "@/features/profile/types"
 import { RootState } from "@/stores"
+import { useSubmitProfile } from "@/features/profile/hooks"
 
-export const UpdateInformation = ({ onSuccess }: UpdateInformationProps) => {
+export const UpdateInformation = () => {
   const { user } = useSelector((state: RootState) => state.auth)
+  const {
+    fetch: submitProfile,
+    isLoading,
+    LoadingSpinner,
+  } = useSubmitProfile("profile")
 
   const defaultValues = {
     username: user?.username ? user.username : "",
@@ -37,67 +40,75 @@ export const UpdateInformation = ({ onSuccess }: UpdateInformationProps) => {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSuccess)}
+        onSubmit={form.handleSubmit(submitProfile)}
         className="container mx-auto grid w-auto lg:w-[850px] my-4 gap-6"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input placeholder="Username" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="Email" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <FormField
-            control={form.control}
-            name="first_name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>First Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="First Name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="last_name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Last Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Last Name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+        {!isLoading ? (
+          <>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Username</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Username" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Email" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="first_name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>First Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="First Name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="last_name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Last Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Last Name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </>
+        ) : (
+          <div className="grid grid-cols-1 gap-4">
+            <LoadingSpinner />
+          </div>
+        )}
         <div className="grid grid-cols-1 gap-4 w-auto lg:w-[200px] mx-auto">
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" disabled={isLoading}>
             Save Changes
           </Button>
         </div>

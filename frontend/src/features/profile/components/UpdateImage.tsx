@@ -21,20 +21,22 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { UpdateImageProps, UpdateImageSchema } from "@/features/profile/types"
+import { UpdateImageSchema } from "@/features/profile/types"
+import { useSubmitProfile } from "@/features/profile/hooks"
 
-export const UpdateImage = ({ onSuccess }: UpdateImageProps) => {
+export const UpdateImage = () => {
   const [open, setOpen] = useState(false)
+  const { fetch: submitProfile, isLoading, LoadingSpinner } = useSubmitProfile("profile")
 
   const form = useForm<z.infer<typeof UpdateImageSchema>>({
     resolver: zodResolver(UpdateImageSchema),
   })
 
-  const submitAndClose = (data: z.infer<typeof UpdateImageSchema>) => {
+  const submitAndClose = async (data: z.infer<typeof UpdateImageSchema>) => {
     if (data.user_photo === null || data.user_photo === undefined) {
       data.user_photo = ""
     }
-    onSuccess(data)
+    await submitProfile(data)
     setOpen(false)
   }
 
@@ -52,6 +54,7 @@ export const UpdateImage = ({ onSuccess }: UpdateImageProps) => {
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
+          {isLoading && <LoadingSpinner />}
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(submitAndClose)}
@@ -66,6 +69,7 @@ export const UpdateImage = ({ onSuccess }: UpdateImageProps) => {
                     <FormControl>
                       <Input
                         {...fieldProps}
+                        disabled={isLoading}
                         placeholder="Picture"
                         type="file"
                         accept="image/*"
@@ -78,7 +82,9 @@ export const UpdateImage = ({ onSuccess }: UpdateImageProps) => {
                   </FormItem>
                 )}
               />
-              <Button type="submit">Submit</Button>
+              <Button type="submit" disabled={isLoading}>
+                Submit
+              </Button>
             </form>
           </Form>
         </div>

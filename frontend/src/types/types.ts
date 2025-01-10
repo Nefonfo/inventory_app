@@ -9,6 +9,11 @@ export interface UserDTO {
   user_photo: string | File
 }
 
+export interface PasswordDTO {
+  old_password: string,
+  new_password: string
+}
+
 export interface BackendPaginatedResponse<T> {
   count: number
   next: string | null

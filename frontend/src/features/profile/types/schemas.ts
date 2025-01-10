@@ -27,3 +27,18 @@ export const UpdateInformationSchema = z.object({
   last_name: z.string().min(2),
   email: z.string().email("Invalid email address"),
 })
+
+export const UpdatePasswordSchema = z
+  .object({
+    old_password: z.string().min(8),
+    new_password: z.string().min(8),
+    new_password_confirm: z.string().min(8),
+  })
+  .refine((data) => data.new_password === data.new_password_confirm, {
+    message: "Passwords must be equal",
+    path: ["new_password_confirm"],
+  })
+  .refine((data) => data.new_password !== data.old_password, {
+    message: "New password can't be the same as the old password",
+    path: ["new_password"],
+  })
