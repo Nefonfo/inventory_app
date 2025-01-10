@@ -1,12 +1,15 @@
+from django.contrib.auth import get_user_model
+
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authentication import TokenAuthentication
 
 
-from core.serializers import UserSerializer
+from core.serializers import UserSerializer, ChangePasswordSerializer
 
 
 class ObtainAuthTokenCustom(ObtainAuthToken):
@@ -54,3 +57,25 @@ class ProfileView(RetrieveUpdateAPIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
+
+
+class ChangePasswordView(GenericAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = ChangePasswordSerializer
+
+    def put(self, request):
+        serializer = self.get_serializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        old_password = serializer.validated_data["old_password"]
+        new_password = serializer.validated_data["new_password"]
+
+        user = get_user_model().objects.get(pk=self.request.user.id)
+        if not user.check_password(raw_password=old_password):
+            return Response({"details": "The password don't match"}, status=400)
+        else:
+            user.set_password(new_password)
+            user.save()
+            return Response({"success": "Password changed successfully"}, status=200)
