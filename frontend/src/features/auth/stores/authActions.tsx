@@ -12,7 +12,7 @@ export const authLogin = createAsyncThunk<
   async ({ username, password }: LoginDTO, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/login/`,
         { username, password }
       )
       return response.data

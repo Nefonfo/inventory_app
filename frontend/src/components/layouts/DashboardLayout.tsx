@@ -17,7 +17,7 @@ export const DashboardLayout = ({ children }: WrapperComponent) => {
 
   const logoutAction = () => {
     dispatch(logout())
-    navigate("/login")
+    navigate("/auth/login")
   }
 
   return (

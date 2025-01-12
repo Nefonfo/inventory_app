@@ -15,7 +15,7 @@ export const profileApi = createApi({
   }),
   endpoints: (builder) => ({
     profile: builder.query<UserDTO, string>({
-      query: () => "/user/profile/",
+      query: () => "/api/user/profile/",
     }),
     profileUpdate: builder.mutation<UserDTO, Partial<UserDTO>>({
       query: (data) => {
@@ -26,7 +26,7 @@ export const profileApi = createApi({
           }
         })
         return {
-          url: "/user/profile/",
+          url: "/api/user/profile/",
           method: "PUT",
           body: formData,
         }
@@ -38,7 +38,7 @@ export const profileApi = createApi({
     >({
       query: (data) => {
         return {
-          url: "/user/profile/change_password",
+          url: "/api/user/profile/change_password",
           method: "PUT",
           body: data,
         }

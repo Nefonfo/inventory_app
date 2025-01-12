@@ -23,7 +23,11 @@ from core.urls import core_urls
 from inventory_app.routes import api_routes
 
 urlpatterns = [
-    *core_urls,
+    path("api/", include(core_urls)),
+    path(
+        "api/password_reset/",
+        include("django_rest_passwordreset.urls", namespace="password_reset"),
+    ),
     path("api-auth/", include("rest_framework.urls")),
     *api_routes,
 ]

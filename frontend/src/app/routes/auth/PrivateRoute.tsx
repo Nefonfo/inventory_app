@@ -13,7 +13,7 @@ export const PrivateRoute = () => {
   useEffect(() => {
     if (!token || !user) {
       dispatch(logout())
-      navigate("/login")
+      navigate("/auth/login")
     }
   }, [navigate, token])
 
