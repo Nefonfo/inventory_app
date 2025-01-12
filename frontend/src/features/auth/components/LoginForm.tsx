@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { LoginFormProps, LoginFormSchema } from "@/features/auth/types"
+import { Link } from "react-router-dom"
 
 export const LoginForm = ({ onSuccess, errors, loading }: LoginFormProps) => {
   const form = useForm<z.infer<typeof LoginFormSchema>>({
@@ -78,12 +79,12 @@ export const LoginForm = ({ onSuccess, errors, loading }: LoginFormProps) => {
               )}
             />
             <div className="flex items-center">
-              <a
-                href="/forgot-password"
+              <Link
+                to="/auth/recover"
                 className="ml-auto inline-block text-sm underline"
               >
                 Forgot your password?
-              </a>
+              </Link>
             </div>
           </div>
           <Button type="submit" className="w-full" disabled={loading}>

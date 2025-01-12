@@ -10,7 +10,7 @@ export interface UserDTO {
 }
 
 export interface PasswordDTO {
-  old_password: string,
+  old_password: string
   new_password: string
 }
 
@@ -19,8 +19,4 @@ export interface BackendPaginatedResponse<T> {
   next: string | null
   previous: string | null
   results: T | null
-}
-
-export interface WrapperComponent {
-  children: React.ReactNode
 }

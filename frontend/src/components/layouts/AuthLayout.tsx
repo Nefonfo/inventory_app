@@ -1,7 +1,7 @@
+import { Outlet } from "react-router-dom"
 import { Package2 } from "lucide-react"
-import { WrapperComponent } from "@/types/types"
 
-export const AuthLayout = ({ children }: WrapperComponent) => {
+export const AuthLayout = () => {
   return (
     <div className="dark:bg-slate-950 h-full w-full content-center lg:content-normal grid lg:grid-cols-2 xl:min-h-[800px]">
       <div className="hidden bg-muted lg:flex lg:flex-col dark:bg-slate-600 bg-slate-950 lg:items-center lg:justify-center px-8">
@@ -10,7 +10,9 @@ export const AuthLayout = ({ children }: WrapperComponent) => {
           "The best way to manage your inventory"
         </h2>
       </div>
-      <div className="flex items-center justify-center py-12">{children}</div>
+      <div className="flex items-center justify-center py-12">
+        <Outlet />
+      </div>
     </div>
   )
 }

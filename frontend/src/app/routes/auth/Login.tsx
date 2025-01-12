@@ -3,7 +3,6 @@ import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
-import { AuthLayout } from "@/components/layouts/AuthLayout"
 import { LoginForm } from "@/features/auth/components/LoginForm"
 import { LoginDTO, LoginFormSchema } from "@/features/auth/types"
 import { authLogin } from "@/features/auth/stores/authActions"
@@ -27,9 +26,5 @@ export const LoginRoute = () => {
     }
   }, [navigate, token])
 
-  return (
-    <AuthLayout>
-      <LoginForm loading={loading} errors={errors} onSuccess={submitForm} />
-    </AuthLayout>
-  )
+  return <LoginForm loading={loading} errors={errors} onSuccess={submitForm} />
 }
