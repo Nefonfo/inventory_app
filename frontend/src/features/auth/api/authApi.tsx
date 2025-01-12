@@ -20,16 +20,32 @@ export const authApi = createApi({
         }
       },
     }),
-    validatePassword: builder.mutation<any, { token: string }>({
+    validatePassword: builder.mutation<{ status: string }, { token: string }>({
       query: (data) => {
         return {
-          url: '/api/password_reset/validate_token/',
+          url: "/api/password_reset/validate_token/",
           method: "POST",
-          body: data
+          body: data,
+        }
+      },
+    }),
+    confirmPassword: builder.mutation<
+      { status: string },
+      { token: string; password: string }
+    >({
+      query: (data) => {
+        return {
+          url: "/api/password_reset/confirm/",
+          method: "POST",
+          body: data,
         }
       },
     }),
   }),
 })
 
-export const { useRecoverPasswordMutation, useValidatePasswordMutation } = authApi
+export const {
+  useRecoverPasswordMutation,
+  useValidatePasswordMutation,
+  useConfirmPasswordMutation,
+} = authApi

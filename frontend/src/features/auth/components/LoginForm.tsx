@@ -80,7 +80,7 @@ export const LoginForm = ({ onSuccess, errors, loading }: LoginFormProps) => {
             />
             <div className="flex items-center">
               <Link
-                to="/auth/recover"
+                to="/auth/recover/password"
                 className="ml-auto inline-block text-sm underline"
               >
                 Forgot your password?

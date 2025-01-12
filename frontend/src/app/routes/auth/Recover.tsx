@@ -1,3 +1,5 @@
+import { RecoverPassword } from "@/features/auth/components"
+
 export const RecoverRoute = () => {
-  return <h1>Recover Route</h1>
+  return <RecoverPassword />
 }

@@ -8,3 +8,16 @@ export const LoginFormSchema = z.object({
     message: "Password must be at least 8 characters.",
   }),
 })
+
+export const RecoverFormSchema = z.object({
+  email: z.string().email({
+    message: "Please enter a valid email address.",
+  }),
+})
+
+export const RecoverConfirmFormSchema = z.object({
+  token: z.string(),
+  password: z.string().min(8, {
+    message: "Password must be at least 8 characters.",
+  }),
+})

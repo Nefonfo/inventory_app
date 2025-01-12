@@ -3,10 +3,10 @@ import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
-import { LoginForm } from "@/features/auth/components/LoginForm"
+import { LoginForm } from "@/features/auth/components"
 import { LoginDTO, LoginFormSchema } from "@/features/auth/types"
-import { authLogin } from "@/features/auth/stores/authActions"
-import { AppDispatch, RootState } from "@/stores/store"
+import { authLogin } from "@/features/auth/stores"
+import { AppDispatch, RootState } from "@/stores"
 
 export const LoginRoute = () => {
   const navigate = useNavigate()

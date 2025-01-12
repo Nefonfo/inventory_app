@@ -28,16 +28,16 @@ export const authSlice = createSlice({
       state.loading = true
       state.errors = null
     }),
-      builder.addCase(authLogin.fulfilled, (state, { payload }) => {
-        state.loading = false
-        state.token = payload.token
-        state.user = payload.user as UserDTO
-        state.errors = null
-      }),
-      builder.addCase(authLogin.rejected, (state, { payload }) => {
-        state.loading = false
-        state.errors = payload as BackendSingleResponse<string>
-      })
+    builder.addCase(authLogin.fulfilled, (state, { payload }) => {
+      state.loading = false
+      state.token = payload.token
+      state.user = payload.user as UserDTO
+      state.errors = null
+    }),
+    builder.addCase(authLogin.rejected, (state, { payload }) => {
+      state.loading = false
+      state.errors = payload as BackendSingleResponse<string>
+    })
   },
 })
 export const { logout, updateUser } = authSlice.actions
