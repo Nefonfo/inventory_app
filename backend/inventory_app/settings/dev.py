@@ -32,6 +32,8 @@ CORS_ALLOWED_ORIGINS = [
 
 INSTALLED_APPS += ["django.contrib.admin"]
 
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
 try:
     from .local import *
 except ImportError:
