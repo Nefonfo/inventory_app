@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { Link } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { ReloadIcon } from "@radix-ui/react-icons"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -15,7 +16,6 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { LoginFormProps, LoginFormSchema } from "@/features/auth/types"
-import { Link } from "react-router-dom"
 
 export const LoginForm = ({ onSuccess, errors, loading }: LoginFormProps) => {
   const form = useForm<z.infer<typeof LoginFormSchema>>({
